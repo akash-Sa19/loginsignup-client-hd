@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Welcome from "./pages/Welcome";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -15,8 +15,8 @@ function App() {
         element={<Login />}
       />
       <Route
-        path="/signup"
-        element={<Welcome />}
+        path="/dashboard"
+        element={<Dashboard />}
       />
     </Routes>
   );

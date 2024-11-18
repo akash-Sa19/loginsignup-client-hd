@@ -1,7 +1,39 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import signin from "../assets/signinImg.png";
+import { useNavigate } from "react-router-dom";
+import { loginQuery } from "../auth/authQuery";
+import { User } from "../types/user";
+import { Button, InputTag, FormErrorMessage } from "../components";
+
 const Login = () => {
   const navigate = useNavigate();
+
+  const [user, setUser] = useState<User>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(user);
+
+    try {
+      setIsFetching(true);
+      const response = await loginQuery(user);
+
+      if (response.status === "success") {
+        toast.success(response.message);
+        setIsFetching(false);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      setError((error as Error).message);
+      setIsFetching(false);
+      console.error("Error logging in:", error);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -25,36 +57,42 @@ const Login = () => {
             </h2>
           </div>
 
-          <form className="mt-6">
+          <form
+            className="mt-6"
+            onSubmit={handleSubmit}
+          >
             <div className="grid grid-cols-1 gap-4">
               {/* Email */}
-              <input
-                type="email"
+              <InputTag
+                setQuery={setUser}
                 placeholder="Email"
-                className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300"
+                type="email"
+                query={user}
+                name="email"
               />
               {/* Password */}
-              <div className="relative">
-                <input
-                  type="password"
-                  placeholder="Set Password"
-                  className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300"
-                />
-              </div>
+              <InputTag
+                setQuery={setUser}
+                placeholder="Password"
+                type="password"
+                query={user}
+                name="password"
+              />
+              {error && <FormErrorMessage message={error} />}
             </div>
-            <button
+
+            <Button
               type="submit"
-              className="w-full mt-4 bg-purple-800 text-white py-2 px-4 rounded-md hover:bg-purple-700 transition-colors font-bold"
-            >
-              Sign In
-            </button>
-            <button
-              type="submit"
-              className="w-full mt-4 text-purple-800 border-4 border-purple-800 py-2 px-4 rounded-md hover:bg-purple-100 transition-colors font-bold"
-              onClick={() => navigate("/")}
-            >
-              Sign Up
-            </button>
+              isDisabled={isFetching}
+              label="Sign In"
+            />
+            <Button
+              type="button"
+              classname="w-full mt-4 text-purple-800 border-4 border-purple-800 py-2 px-4 rounded-md hover:bg-purple-100 transition-colors font-bold disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
+              destination={() => navigate("/")}
+              isDisabled={isFetching}
+              label={"Sign up"}
+            />
           </form>
         </div>
       </div>

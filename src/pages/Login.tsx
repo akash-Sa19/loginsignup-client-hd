@@ -17,11 +17,11 @@ const Login = () => {
   const [isFetching, setIsFetching] = useState(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user);
 
     try {
       setIsFetching(true);
       const response = await loginQuery(user);
+      // console.log(response);
 
       if (response.status === "success") {
         toast(response.message);
@@ -35,11 +35,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen p-6 bg-gray-100">
       {/* Outer container for responsiveness */}
-      <div className="flex flex-col items-center w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-lg md:flex-row">
+      <div className="flex flex-col items-center w-full max-w-4xl overflow-hidden bg-white rounded-lg shadow-lg md:flex-row md:h-[670px]">
         {/* Image section (hidden on mobile) */}
-        <div className="hidden bg-gray-200 md:block md:w-1/2">
+        <div className="hidden h-full bg-gray-200 md:block md:w-1/2">
           {/* Dummy image */}
           <img
             src={signin}

@@ -15,7 +15,7 @@ const Dashboard = () => {
     const handleDashboardData = async () => {
       try {
         const response = await dashboardDataQuery();
-        console.log(response);
+        // console.log(response);
 
         if (response.status === "success") {
           setUser({
@@ -35,7 +35,7 @@ const Dashboard = () => {
       const response = await signOutQuery();
 
       if (response.status === "success") {
-        navigate("/");
+        navigate("/login");
         toast(response.message);
       }
     } catch (error) {

@@ -25,7 +25,6 @@ const Signup = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user);
 
     if (user.password !== user.confirmPassword) {
       setError("🙅🏼‍♂️ Passwords do not match");
@@ -35,7 +34,7 @@ const Signup = () => {
     try {
       setIsFetching(true);
       const response = await signupQuery(user);
-      console.log(response);
+      // console.log(response);
 
       if (response.status === "success") {
         toast(response.message);
@@ -52,11 +51,11 @@ const Signup = () => {
 
   const handleOtpVerification = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user);
 
     try {
       setIsVerifyingOtp(true);
-      const response = await otpVerificationQuery(user.email, otp); // Replace with your API call
+      const response = await otpVerificationQuery(user.email, otp);
+      // console.log(response);
 
       if (response.status === "success") {
         toast(response.message);
@@ -71,11 +70,11 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen p-6 bg-gray-100">
       {/* Outer container for responsiveness */}
       <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl md:h-[670px]">
         {/* Image section (hidden on mobile) */}
-        <div className="hidden bg-gray-200 md:block md:w-1/2">
+        <div className="hidden h-full bg-gray-200 md:block md:w-1/2">
           {/* Dummy image */}
           <img
             src={signup}
@@ -97,8 +96,7 @@ const Signup = () => {
               }`}
             >
               <a
-                href="/login"
-                // onClick={() => setIsOtpSent((prev) => !prev)}
+                onClick={() => navigate("/login")}
                 className="font-semibold text-purple-500 underline cursor-pointer hover:text-purple-700"
               >
                 Sign

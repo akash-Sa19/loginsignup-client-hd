@@ -21,7 +21,6 @@ const loginQuery = async (user: User) => {
 
 const signupQuery = async (user: User) => {
   try {
-    console.log("user :", user);
     const response = await axios.post(
       `${import.meta.env.VITE_SERVER_SIDE_API_URL}/signup`,
       {
@@ -56,8 +55,8 @@ const otpVerificationQuery = async (email: string, otp: string) => {
     const response = await axios.post(
       `${import.meta.env.VITE_SERVER_SIDE_API_URL}/verify-otp`,
       {
-        email,
-        otp,
+        email: email.trim(),
+        otp: otp.trim(),
       },
       {
         withCredentials: true,

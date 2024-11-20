@@ -3,29 +3,70 @@ import { User } from "../types/user";
 
 const loginQuery = async (user: User) => {
   try {
-    const response = await axios.post("/api/login", user);
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_SIDE_API_URL}/login`,
+      {
+        email: user.email,
+        password: user.password,
+      },
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
-  } catch (error) {
-    console.error("Error logging in:", error);
+  } catch (error: any | Error) {
+    throw new Error(error.response?.data.message);
   }
 };
 
 const signupQuery = async (user: User) => {
   try {
-    const response = await axios.post("/api/signup", user);
+    console.log("user :", user);
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_SIDE_API_URL}/signup`,
+      {
+        name: user.fname?.trim() + " " + user.lname?.trim(),
+        email: user.email,
+        password: user.password,
+      }
+    );
     return response.data;
-  } catch (error) {
-    console.error("Error signing up:", error);
+  } catch (error: any | Error) {
+    throw new Error(error.response?.data.message);
   }
 };
 
-const otpVerificationQuery = async (user: User) => {
+const signOutQuery = async () => {
   try {
-    const response = await axios.post("/api/otp-verification", user);
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_SIDE_API_URL}/signout`,
+      {
+        withCredentials: true,
+      }
+    );
     return response.data;
-  } catch (error) {
-    console.error("Error verifying OTP:", error);
+  } catch (error: any | Error) {
+    console.error(error);
+    throw new Error(error.response?.data.message);
   }
 };
 
-export { loginQuery, signupQuery, otpVerificationQuery };
+const otpVerificationQuery = async (email: string, otp: string) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_SERVER_SIDE_API_URL}/verify-otp`,
+      {
+        email,
+        otp,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error: any | Error) {
+    throw new Error(error.response?.data.message);
+  }
+};
+
+export { loginQuery, signupQuery, otpVerificationQuery, signOutQuery };

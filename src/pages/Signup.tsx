@@ -20,7 +20,7 @@ const Signup = () => {
   const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const [otp, setOtp] = useState<string>("");
-  const [isOtpSent, setIsOtpSent] = useState<boolean>(true);
+  const [isOtpSent, setIsOtpSent] = useState<boolean>(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -35,9 +35,10 @@ const Signup = () => {
     try {
       setIsFetching(true);
       const response = await signupQuery(user);
+      console.log(response);
 
       if (response.status === "success") {
-        toast.success(response.message);
+        toast(response.message);
         setIsFetching(false);
         setIsOtpSent(true);
         setError("");
@@ -55,10 +56,10 @@ const Signup = () => {
 
     try {
       setIsVerifyingOtp(true);
-      const response = await otpVerificationQuery(user); // Replace with your API call
+      const response = await otpVerificationQuery(user.email, otp); // Replace with your API call
 
       if (response.status === "success") {
-        toast.success(response.message);
+        toast(response.message);
         setIsVerifyingOtp(false);
         navigate("/dashboard");
       }
@@ -70,24 +71,23 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
       {/* Outer container for responsiveness */}
-      <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl md:h-[700px]">
+      <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-4xl md:h-[670px]">
         {/* Image section (hidden on mobile) */}
-        <div className="hidden md:block md:w-1/2 bg-gray-200">
+        <div className="hidden bg-gray-200 md:block md:w-1/2">
           {/* Dummy image */}
           <img
             src={signup}
             alt="Sign Up Illustration"
-            className="h-full w-full object-cover"
+            className="object-cover w-full h-full"
           />
         </div>
 
         {/* Form section */}
-
-        <div className="w-full md:w-1/2 p-6 sm:p-10">
-          <div className="text-center md:text-left flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-purple-800 mb-2">
+        <div className="w-full p-6 md:w-1/2 sm:p-10">
+          <div className="flex items-center justify-between text-center md:text-left">
+            <h2 className="mb-2 text-2xl font-bold text-purple-800">
               Let us know <span className="text-red-500">!</span>
             </h2>
 
@@ -99,7 +99,7 @@ const Signup = () => {
               <a
                 href="/login"
                 // onClick={() => setIsOtpSent((prev) => !prev)}
-                className="text-purple-500 font-semibold underline hover:text-purple-700 cursor-pointer"
+                className="font-semibold text-purple-500 underline cursor-pointer hover:text-purple-700"
               >
                 Sign
                 <span className="text-red-500">In</span>
@@ -179,17 +179,17 @@ const Signup = () => {
             </form>
           ) : (
             <form
-              className="mt-6 relative"
+              className="relative mt-6"
               onSubmit={handleOtpVerification}
             >
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   {/* Title */}
-                  <h2 className="font-bold text-3xl text-violet-500">
+                  <h2 className="text-3xl font-bold text-violet-500">
                     Verify your email
                   </h2>
                   {/* Message */}
-                  <p className="mt-2 text-gray-500 text-sm font-medium">
+                  <p className="mt-2 text-sm font-medium text-gray-500">
                     Hi {user.fname || "user"}! we've send an email to{" "}
                     <span
                       className="underline cursor-pointer"
@@ -223,7 +223,7 @@ const Signup = () => {
                 label={isVerifyingOtp ? "Verifying..." : "Verify Otp"}
               />
               <p
-                className="font-medium text-gray-500 text-sm mt-4 cursor-pointer"
+                className="mt-4 text-sm font-medium text-gray-500 cursor-pointer"
                 onClick={() => {
                   if (!isVerifyingOtp) {
                     setIsOtpSent(false);

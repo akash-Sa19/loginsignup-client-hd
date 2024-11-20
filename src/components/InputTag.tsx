@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 type Props = {
   setQuery: any;
@@ -27,22 +29,18 @@ const InputTag = ({
         value={query[name]}
         onChange={(e) => setQuery({ ...query, [name]: e.target.value })}
         required
-        // @ts-ignore
-        // style={{
-        //   WebkitTextSecurity: "disc", // Hides the default eye icon
-        //   MozAppearance: "textfield", // Firefox-specific
-        //   appearance: "textfield", // Ensures no native styles for password input
-        // }}
+        minLength={type == "password" ? 6 : 1}
+        maxLength={type != "email" ? 20 : 50}
       />
       {type === "password" && (
-        <span className="absolute inset-y-0 right-3 flex items-center cursor-pointer">
+        <span className="absolute inset-y-0 flex items-center cursor-pointer right-3">
           {showPassword ? (
             <span
               role="img"
               aria-label="Hide password"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              🙈 {/* Replace with an icon */}
+              <FaEyeSlash />
             </span>
           ) : (
             <span
@@ -50,7 +48,7 @@ const InputTag = ({
               aria-label="Show password"
               onClick={() => setShowPassword((prev) => !prev)}
             >
-              👁️ {/* Replace with an icon */}
+              <FaEye />
             </span>
           )}
         </span>

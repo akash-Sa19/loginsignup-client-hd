@@ -2,15 +2,45 @@
 
 ### Project Description
 
-This project is a task from Highway Delite internship selection program
+This project is a task from Highway Delite internship selection program.
 
 ### How to Run project Locally
 
-1. Clone the repository from GitHub using `git clone https://github.com/HighwayDelite/internship.git"`
-2. Navigate to the project directory using `cd internship`
-3. Install dependencies using `npm install`
-4. Start the development server using `npm run dev`
-5. Open your browser and navigate to `http://localhost:5173`
+1. Clone the repository from GitHub using
+
+```
+git clone https://github.com/akash-Sa19/loginsignup-client-hd
+```
+
+2. Navigate to the project directory using
+
+```
+cd loginsignup-client-hd
+```
+
+3. Install dependencies using
+
+```
+npm install
+```
+
+4. Creat a .env file on the root directory and add the following variables or add custom api url endpoint
+
+```
+VITE_SERVER_SIDE_API_URL= http://localhost:3003/api/v1/user
+```
+
+5. Start the development server using
+
+```
+npm run dev
+```
+
+6. Open your browser and navigate to
+
+```
+http://localhost:5173
+```
 
 ### Project Structure
 
@@ -21,9 +51,11 @@ This project is a task from Highway Delite internship selection program
 - `src/assets`: Contains the assets used in the application.
 - `src/main.tsx`: The entry point of the application.
 - `vite.config.ts`: The configuration file for Vite.
+- `src/lib`: Contains the library functions of the application.
 
 ### Technologies Used
 
 - Vite
 - TypeScript
 - Tailwind CSS
+- Axios

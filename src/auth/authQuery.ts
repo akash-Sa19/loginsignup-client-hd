@@ -69,4 +69,24 @@ const otpVerificationQuery = async (email: string, otp: string) => {
   }
 };
 
-export { loginQuery, signupQuery, otpVerificationQuery, signOutQuery };
+const dashboardDataQuery = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_SERVER_SIDE_API_URL}/dashboard`,
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error: any | Error) {
+    throw new Error(error.response?.data.message);
+  }
+};
+
+export {
+  loginQuery,
+  signupQuery,
+  otpVerificationQuery,
+  signOutQuery,
+  dashboardDataQuery,
+};
